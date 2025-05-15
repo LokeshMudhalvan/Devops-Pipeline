@@ -11,6 +11,7 @@ const useAuth = () => {
         const verifyAuthentication = async () => {
 
             try {
+                console.log('This is the token', token);
                 const response = await axios.get('http://localhost:5001/auth/verify', {
                     headers: {
                         Authorization: `Bearer ${token}`,

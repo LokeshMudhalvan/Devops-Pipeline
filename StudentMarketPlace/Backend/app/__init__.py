@@ -9,6 +9,10 @@ db = SQLAlchemy()
 jwt = JWTManager()
 socketio = SocketIO(cors_allowed_origins="*")
 
+        
+def create_tables():
+    db.create_all()
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -35,5 +39,8 @@ def create_app():
     app.register_blueprint(saved_bp, url_prefix='/saved')
     app.register_blueprint(notify_bp, url_prefix='/notifications')
     app.register_blueprint(search_bp, url_prefix='/search')
+
+    with app.app_context():
+        create_tables()
 
     return app 

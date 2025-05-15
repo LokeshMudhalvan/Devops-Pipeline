@@ -44,7 +44,7 @@ def login():
         user = Users.query.filter_by(email=data['email']).first()
 
         if user and check_password_hash(user.password_hash, data['password']):
-            access_token = create_access_token(user.user_id)
+            access_token = create_access_token(str(user.user_id))
             return jsonify(
                 {"access_token": access_token,
                   "message": "Login successfull"
@@ -60,8 +60,10 @@ def login():
 @auth_bp.route('/verify', methods=["GET"])
 @jwt_required()
 def verify_token():
+    print("Entering auth verify")
     try:
         user = get_jwt_identity()
         return jsonify({'valid': True, 'user': user}), 200
     except Exception as e:
+        print(f'An error occured while trying to verify:{e}')
         return jsonify({'valid': False, 'error': str(e)}), 401
