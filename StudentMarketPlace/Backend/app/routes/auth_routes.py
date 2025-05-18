@@ -62,7 +62,7 @@ def login():
 def verify_token():
     print("Entering auth verify")
     try:
-        user = get_jwt_identity()
+        user = int(get_jwt_identity())
         return jsonify({'valid': True, 'user': user}), 200
     except Exception as e:
         print(f'An error occured while trying to verify:{e}')

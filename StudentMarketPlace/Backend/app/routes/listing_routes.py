@@ -24,7 +24,7 @@ def is_valid_filename(filename):
 def create_listing():
     try:
         data = request.form.to_dict()
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
 
         images = []
 
@@ -111,7 +111,7 @@ def show_listings(current_page):
 @jwt_required()
 def show_individual_listings(current_page):
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         total_listings = Listings.query.filter_by(user_id=user_id).count()
         limit = 12
         offset = (current_page - 1) * 12
@@ -196,7 +196,8 @@ def update_listing(listing_id):
 
         listing = Listings.query.get_or_404(listing_id)
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
+
         if listing.user_id != user_id:
             return jsonify({"error": "You do not have permission to update this listing"}), 403
 
@@ -235,7 +236,7 @@ def delete_listing(listing_id):
     try:
         listing = Listings.query.get_or_404(listing_id)
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         if listing.user_id != user_id:
             return jsonify({"error": "You do not have permission to delete this listing"}), 403
         
@@ -288,7 +289,7 @@ def add_images(listing_id):
         listing = Listings.query.get_or_404(listing_id)
         existing_images = listing.images
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         if listing.user_id != user_id:
             return jsonify({"error": "You do not have permission to add images to this listing"}), 403
         

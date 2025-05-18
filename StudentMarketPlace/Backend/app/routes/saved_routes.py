@@ -9,7 +9,7 @@ saved_bp = Blueprint('saved', __name__)
 @jwt_required()
 def save_listing(listing_id):
     try:
-        user_id = get_jwt_identity()    
+        user_id = int(get_jwt_identity())    
 
         existing = SavedListings.query.filter_by(user_id=user_id, listing_id=listing_id).first()
         if existing:
@@ -36,7 +36,7 @@ def save_listing(listing_id):
 @jwt_required()
 def unsave_listing(listing_id):
     try:
-        user_id = get_jwt_identity()    
+        user_id = int(get_jwt_identity())    
 
         existing = SavedListings.query.filter_by(user_id=user_id, listing_id=listing_id).first()
         if not existing:
@@ -55,7 +55,7 @@ def unsave_listing(listing_id):
 @jwt_required()
 def show_saved_listings():
     try: 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         """total_listings = SavedListings.query.filter_by(user_id=user_id).count()
         limit = 12
         offset = (current_page - 1) * 12 
@@ -101,7 +101,7 @@ def show_saved_listings():
 @jwt_required()
 def fetch_saved_listings(current_page):
     try: 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         total_listings = SavedListings.query.filter_by(user_id=user_id).count()
         limit = 12
         offset = (current_page - 1) * 12 

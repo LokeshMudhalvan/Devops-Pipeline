@@ -20,7 +20,7 @@ os.makedirs(CHATS_DIR, exist_ok=True)
 def send_message():
     try:
         data = request.form.to_dict()
-        sender_id = get_jwt_identity()
+        sender_id = int(get_jwt_identity())
         listing_id = data["listing_id"]
         receiver_id = data["receiver_id"]
         message = data["message"]
@@ -103,7 +103,7 @@ def update_message_status():
 
         message = Chats.query.get_or_404(chat_id)
         
-        current_user_id = get_jwt_identity()
+        current_user_id = int(get_jwt_identity())
         if int(message.receiver_id) != int(current_user_id):
             return jsonify({"error": "You can only update status for messages you receive"}), 403
             
@@ -127,7 +127,7 @@ def delete_message(message_id):
     try:
         message = Chats.query.get_or_404(message_id)
 
-        current_user_id = get_jwt_identity()
+        current_user_id = int(get_jwt_identity())
         if int(message.sender_id) != int(current_user_id):
             return jsonify({"error": "You can only delete messages you've sent"}), 403
         
@@ -148,7 +148,7 @@ def delete_message(message_id):
 @jwt_required()
 def get_messages(listing_id):
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         other_user_id = int(request.args.get('other_user_id'))  
         
         if not other_user_id:
@@ -195,7 +195,7 @@ def get_messages(listing_id):
 @jwt_required()
 def get_all_chats():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
 
         subquery = (
             db.session.query(

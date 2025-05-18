@@ -9,7 +9,7 @@ search_bp = Blueprint('search', __name__)
 @search_bp.route('/', methods=["GET"])
 @jwt_required()
 def search_listing():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     try:
         current_page = request.args.get('page', 1, type=int)

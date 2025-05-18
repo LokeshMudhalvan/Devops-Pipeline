@@ -16,7 +16,7 @@ os.makedirs(USER_DIR, exist_ok=True)
 @jwt_required()
 def get_user_university():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
 
         user = Users.query.filter_by(user_id=user_id).first()
         if user.university:
@@ -34,7 +34,7 @@ def get_user_university():
 @jwt_required()
 def get_user_id():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
 
         return jsonify(user_id), 200
 
@@ -46,7 +46,7 @@ def get_user_id():
 @jwt_required()
 def update_user():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user = Users.query.get(user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
@@ -77,7 +77,7 @@ def update_user():
 @jwt_required()
 def get_profile_picture():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user = Users.query.get(user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
